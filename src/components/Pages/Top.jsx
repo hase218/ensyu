@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import Result from "./Result";
+import { useNavigate } from "react-router-dom";
 
 //右に動かしたときに、犬種から辞書型にあるカテゴリーをとりだしたい
 //15回動かしたら結果のページに動くようにする
@@ -18,8 +19,10 @@ export default function Top() {
     const [breed, setBreed] = useState(); //画像取得用の犬種名
     const [img, setImg] = useState();
 
-    const [likeImgs, setLikeImgs] = useState([]);
+    const [likeImgs, setLikeImgs] = useState([]); //気に入った写真
+    const [likeCategory, setLikeCategory] = useState([]); //気に入った犬種
     const [count, setCount] = useState(0);
+    const navigate = useNavigate(); //ページ自動遷移用
 
     //スライド動作に必要な変数
     const [isDragging, setIsDragging] = useState(false);
@@ -28,22 +31,26 @@ export default function Top() {
 
     useEffect(() => {
         (async () => {
-          const response = await fetch("dogs.json");
-          const jsonData = await response.json();
-          //.jsonも非同期だったネー
+            const response = await fetch("dogs.json");
+            const jsonData = await response.json();
+            //.jsonも非同期だったネー
 
-          const array1 = {};
-          console.log(jsonData);
-          jsonData.forEach((element) => {
-            element.breeds.forEach((breed) => {
-                array1[breed] = element.category;
+            const array1 = {};
+            const array2 = {};
+            //console.log(jsonData);
+            jsonData.forEach((element) => {
+                console.log(element);
+                array2[element.category] = 0;
+                element.breeds.forEach((breed) => {
+                    array1[breed] = element.category;
+                })
             })
-          })
-          setDogCategory(array1);
-          setDogBreeds(Object.keys(array1));
-          setBreed(randomValueFromArray(Object.keys(array1)));
+            setDogCategory(array1);
+            setDogBreeds(Object.keys(array1));
+            setLikeCategory(array2);
+            setBreed(randomValueFromArray(Object.keys(array1)));
         })();
-      }, []);
+    }, []);
 
     useEffect(() => {
         (async () => {
@@ -61,6 +68,18 @@ export default function Top() {
             }
         })();
     }, [breed]);
+
+    useEffect(() => {
+        if(count > 10) {
+            (async () => {
+                try{
+                    navigate("/result");
+                } catch (error) {
+                    console.error(error.message);
+                }
+            })();
+        }
+    [count, navigate]});
 
     const handleMouseDown = (e) => {
         e.preventDefault();//ブラウザのデフォルトの動きをなくす
@@ -92,27 +111,35 @@ export default function Top() {
     const handleSlideRight = () => {
         // alert("画像が右にスライドされました！");
         setLikeImgs(prevImg => [...prevImg, img]);
-
+        setLikeCategory((prevCategory) => ({
+            ...prevCategory,
+            [dogCategory[breed]]: prevCategory[dogCategory[breed]] + 1,
+        }));
         //breedが被らないようにする
         let newBreed;
         do {
             newBreed = randomValueFromArray(dogBreeds);
-        } while(newBreed === breed);
+        } while (newBreed === breed);
 
         setBreed(newBreed);
         setDistanceX(0);
         setIsDragging(false);
-        setCount(count + 1);
+        setCount((prevCount) => prevCount + 1);
     };
     const handleSlideLeft = () => {
         //alert("左にスライドされた")
-        setBreed(randomValueFromArray(dogBreeds));
+
+        let newBreed;
+        do {
+            newBreed = randomValueFromArray(dogBreeds);
+        } while (newBreed === breed);
+        setBreed(newBreed);
         setDistanceX(0);
         setIsDragging(false);
     }
     // console.log(dogCategory);
     // console.log(dogBreeds);
-    console.log(setLikeCategory);
+    console.log(likeCategory);
     return (
         <div>
             <Grid container>
