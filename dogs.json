@@ -1,0 +1,56 @@
+[
+    {
+        "category": "牧羊犬・作業犬 (Herding Dogs & Working Dogs)",
+        "breeds": [
+            "australian", "buhund", "cattledog", "collie", "corgi", "sheepdog","akita", "appenzeller", "elkhound", "finnish", "germanshepherd", "groenendael", "kuvasz", "leonberg", "malamute", "newfoundland", "rottweiler", "samoyed", "schnauzer", "stbernard"
+        ]
+    },
+    {
+        "category": "猟犬 (Hounds)",
+        "breeds": [
+            "beagle", "bloodhound", "coonhound", "dachshund", "greyhound", "harrier", "ibizan", "walker",
+            "afghan", "borzoi", "deerhound", "saluki", "whippet", "wolfhound",
+            "basset", "plott", "ridgeback"
+        ]
+    },
+    {
+        "category": "テリア (Terriers)",
+        "breeds": [
+            "airedale", "bedlington", "border", "cairn", "dandie", "fox", "kerryblue", "lakeland", "norfolk", "norwich", "patterdale", "russell", "scottish", "sealyham", "silky", "tibetan", "welsh", "westhighland", "wheaten", "yorkshire",
+            "bullterrier", "staffordshire"
+        ]
+    },
+    {
+        "category": "スパニエル・レトリーバー (Spaniels & Retrievers)",
+        "breeds": [
+            "spaniel", "springer",
+            "retriever", "labrador"
+        ]
+    },
+    {
+        "category": "小型犬 (Toy Dogs)",
+        "breeds": [
+            "affenpinscher", "bichon", "chihuahua", "cavalier", "havanese", "maltese", "papillon", "pekinese", "pinscher", "poodle", "pug", "shihtzu", "yorkshire"]
+        
+    },
+    {
+        "category": "中型犬 (Companion & Utility Dogs)",
+        "breeds": [
+            "cockapoo", "cavapoo", "poodle", "keeshond", "pomeranian", "schipperke",
+            "boxer", "bulldog", "dalmatian", "kelpie", "pitbull"
+        ]
+    },
+    {
+        "category": "日本犬 (Japanese Breeds)",
+        "breeds": [
+            "akita", "shiba", "spitz"
+        ]
+    },
+    {
+        "category": "珍しい犬種 (Rare & Regional Breeds)",
+        "breeds": [
+            "bakharwal", "gaddi", "mudhol", "pariah", "rajapalayam", "spitz", "greyhound",
+            "mexicanhairless", "kombai", "otterhound", "tervuren", "vizsla"
+        ]
+    }
+]

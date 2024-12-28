@@ -1,5 +1,6 @@
-import Guide from "./Page/Guide";
-import Top from "./Page/Top";
+import Guide from "./Pages/Guide";
+import Result from "./Pages/Result";
+import Top from "./Pages/Top";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 
 export default function Main() {
@@ -11,6 +12,7 @@ export default function Main() {
                 <Routes>
                     <Route path="/" element={<Top />} />
                     <Route path="/Guide" element={<Guide />} />
+                    <Route path="/Result" element={<Result />} />
                 </Routes>
             </BrowserRouter>
         </div>

@@ -1,6 +1,11 @@
-import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Box } from "@mui/material";
 import Grid from '@mui/material/Grid';
+import Result from "./Result";
+
+//右に動かしたときに、犬種から辞書型にあるカテゴリーをとりだしたい
+//15回動かしたら結果のページに動くようにする
+
 
 function randomValueFromArray(array) {
     const random = Math.floor(Math.random() * array.length);
@@ -8,13 +13,37 @@ function randomValueFromArray(array) {
 }
 
 export default function Top() {
+    const [dogCategory, setDogCategory] = useState([]); //犬辞書型
+    const [dogBreeds, setDogBreeds] = useState([]); //辞書型のkeyだけとった配列
+    const [breed, setBreed] = useState(); //画像取得用の犬種名
     const [img, setImg] = useState();
-    const Breeds = ["germanshepherd", "corgi"]
-    const [breed, setBreed] = useState(randomValueFromArray(Breeds));
+
+    const [likeImgs, setLikeImgs] = useState([]);
+    const [count, setCount] = useState(0);
+
+    //スライド動作に必要な変数
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
     const [distanceX, setDistanceX] = useState(0);
-    const [dogs, setDogs] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+          const response = await fetch("dogs.json");
+          const jsonData = await response.json();
+          //.jsonも非同期だったネー
+
+          const array1 = {};
+          console.log(jsonData);
+          jsonData.forEach((element) => {
+            element.breeds.forEach((breed) => {
+                array1[breed] = element.category;
+            })
+          })
+          setDogCategory(array1);
+          setDogBreeds(Object.keys(array1));
+          setBreed(randomValueFromArray(Object.keys(array1)));
+        })();
+      }, []);
 
     useEffect(() => {
         (async () => {
@@ -24,10 +53,11 @@ export default function Top() {
                     throw new Error(`HTTPエラー: ${response.status}`);
                 }
                 const data = await response.json();
-                console.log(data.message)
+                // console.log(data.message)
                 setImg(data.message);
             } catch (error) {
                 console.error(error.message);
+                setBreed(randomValueFromArray(dogBreeds));
             }
         })();
     }, [breed]);
@@ -61,17 +91,28 @@ export default function Top() {
 
     const handleSlideRight = () => {
         // alert("画像が右にスライドされました！");
-        setDogs(prevImg => [...prevImg, img]);
-        setBreed(randomValueFromArray(Breeds));
+        setLikeImgs(prevImg => [...prevImg, img]);
+
+        //breedが被らないようにする
+        let newBreed;
+        do {
+            newBreed = randomValueFromArray(dogBreeds);
+        } while(newBreed === breed);
+
+        setBreed(newBreed);
         setDistanceX(0);
         setIsDragging(false);
+        setCount(count + 1);
     };
     const handleSlideLeft = () => {
-        // alert("左にスライドされた")
-        setBreed(randomValueFromArray(Breeds));
+        //alert("左にスライドされた")
+        setBreed(randomValueFromArray(dogBreeds));
         setDistanceX(0);
         setIsDragging(false);
     }
+    // console.log(dogCategory);
+    // console.log(dogBreeds);
+    console.log(setLikeCategory);
     return (
         <div>
             <Grid container>
@@ -83,15 +124,25 @@ export default function Top() {
                             overflow: "hidden",
                             border: "2px solid black",
                             position: "relative",
-                            textAlign: "center",
                         }}
                         onMouseDown={handleMouseDown}
                         onMouseMove={handleMouseMove}
                         onMouseUp={handleMouseUp}
                         onMouseLeave={handleMouseUp}
                     >
-                        <img className="dogs" src={img} alt="randomDogs" />
+                        <img
+                            className="dogs"
+                            src={img}
+                            alt="randomDogs"
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "contain",
+                            }} />
                     </Box>
+                </Grid>
+                <Grid item>
+                    <div>{count}</div>
                 </Grid>
             </Grid>
 
