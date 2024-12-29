@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
-import { Box } from "@mui/material";
-import Grid from '@mui/material/Grid';
-import Result from "./Result";
+import { Box, Grid, Button, Typography, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Button from '@mui/material/Button';
-
-//右に動かしたときに、犬種から辞書型にあるカテゴリーをとりだしたい
-//15回動かしたら結果のページに動くようにする
-
+import SwipeRightIcon from '@mui/icons-material/SwipeRight';
+import SwipeLeftIcon from '@mui/icons-material/SwipeLeft';
 
 function randomValueFromArray(array) {
     const random = Math.floor(Math.random() * array.length);
@@ -38,9 +33,7 @@ export default function Top() {
 
             const array1 = {};
             const array2 = {};
-            //console.log(jsonData);
             jsonData.forEach((element) => {
-                console.log(element);
                 array2[element.category] = 0;
                 element.breeds.forEach((breed) => {
                     array1[breed] = element.category;
@@ -75,7 +68,7 @@ export default function Top() {
             }
         })();
     }, [breed, likeImgs]);
-    
+
     useEffect(() => {
         if (count > 11) {
             (async () => {
@@ -91,7 +84,7 @@ export default function Top() {
     });
 
     const handleMouseDown = (e) => {
-        e.preventDefault();//ブラウザのデフォルトの動きをなくす
+        e.preventDefault();
         setIsDragging(true);
         setStartX(e.clientX); //クリックされたときのx座標を記録
     };
@@ -118,13 +111,11 @@ export default function Top() {
     };
 
     const handleSlideRight = () => {
-        // alert("画像が右にスライドされました！");
         setLikeImgs(prevImg => [...prevImg, img]);
         setLikeCategory((prevCategory) => ({
             ...prevCategory,
             [dogCategory[breed]]: prevCategory[dogCategory[breed]] + 1,
         }));
-        //breedが被らないようにする
         let newBreed;
         do {
             newBreed = randomValueFromArray(dogBreeds);
@@ -136,8 +127,6 @@ export default function Top() {
         setCount((prevCount) => prevCount + 1);
     };
     const handleSlideLeft = () => {
-        //alert("左にスライドされた")
-
         let newBreed;
         do {
             newBreed = randomValueFromArray(dogBreeds);
@@ -146,46 +135,87 @@ export default function Top() {
         setDistanceX(0);
         setIsDragging(false);
     }
-    // console.log(dogCategory);
-    // console.log(dogBreeds);
-    console.log(likeCategory);
+
     return (
-        <div>
-            <Grid container>
-                <Grid item>
-                    <Box
-                        sx={{
-                            width: "400px",
-                            height: "300px",
-                            overflow: "hidden",
-                            border: "2px solid black",
-                            position: "relative",
-                        }}
-                        onMouseDown={handleMouseDown}
-                        onMouseMove={handleMouseMove}
-                        onMouseUp={handleMouseUp}
-                        onMouseLeave={handleMouseUp}
-                    >
-                        <img
-                            className="dogs"
-                            src={img}
-                            alt="randomDogs"
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "contain",
-                            }} />
-                    </Box>
-                </Grid>
-                <Grid item>
-                    <Button variant="outlined" onClick={() => { setLikeImgs([]), setLikeCategory([]), setCount(0) }}>やりなおし</Button>
-                </Grid>
-                <Grid item>
-                    <div>{count}</div>
-                </Grid>
+        <Grid container spacing={4} sx={{ padding: 4 }}>
+            <Grid item xs={12} sm={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Box
+                    sx={{
+                        width: "100%",
+                        maxWidth: "400px", // 最大幅を設定
+                        height: "300px",
+                        overflow: "hidden",
+                        border: "2px solid #333",
+                        borderRadius: "10px",
+                        position: "relative",
+                        marginBottom: 2,
+                    }}
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseUp}
+                >
+                    <img
+                        className="dogs"
+                        src={img}
+                        alt="randomDogs"
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "contain",
+                            borderRadius: "8px",
+                        }} />
+                </Box>
             </Grid>
-
-        </div>
-
+            <Grid item xs={12} sm={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <Button
+                    variant="outlined"
+                    sx={{
+                        color: '#333',
+                        borderColor: '#333',
+                        padding: '12px 24px',
+                        fontSize: '18px',
+                        '&:hover': {
+                            backgroundColor: '#888',
+                        },
+                        marginBottom: 2,
+                        width: '100%',
+                        maxWidth: '250px', // 最大幅を設定
+                    }}
+                    onClick={() => { setLikeImgs([]), setLikeCategory([]), setCount(0) }}
+                >
+                    やりなおし
+                </Button>
+                <Typography variant="h6" sx={{ marginTop: 2 }}>
+                    {`選択した回数: ${count}`}
+                </Typography>
+            </Grid>
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
+                <IconButton 
+                    onClick={() => { handleSlideLeft() }}
+                    size="large"
+                    sx={{
+                        fontSize: '2rem',
+                        color: '#333',
+                        '&:hover': {
+                            backgroundColor: '#ddd',
+                        }
+                    }}>
+                    <SwipeLeftIcon sx={{ fontSize: 'inherit' }} />
+                </IconButton>
+                <IconButton 
+                    onClick={() => { handleSlideRight() }}
+                    size="large"
+                    sx={{
+                        fontSize: '2rem',
+                        color: '#333',
+                        '&:hover': {
+                            backgroundColor: '#ddd',
+                        }
+                    }}>
+                    <SwipeRightIcon sx={{ fontSize: 'inherit' }} />
+                </IconButton>
+            </Grid>
+        </Grid>
     );
 };

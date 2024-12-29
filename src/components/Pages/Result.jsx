@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 export default function Result() {
     const location = useLocation();
     const payload = location.state;
-    //location.state.imgDataがうごかないのはなぜ
     const [imgs, setImgs] = useState(payload.imgData);
     const [category, setCategory] = useState(payload.categoryData);
 
     const [maxCategory, setMaxCategory] = useState(() => {
-        return Object.keys(category).reduce((maxKey, key) => { //Array.prototype.reduce()
-            if (category[key] > (category[maxKey] || 0)) { //maxの初期値0
+        return Object.keys(category).reduce((maxKey, key) => {
+            if (category[key] > (category[maxKey] || 0)) {
                 return key;
             } else {
                 return maxKey;
@@ -19,35 +20,33 @@ export default function Result() {
         }, "");
     });
 
-    // console.log(img);
-    console.log(category);
-    console.log(maxCategory);
     return (
-        <div>
-            あなたがえらんだのは
-            <p>{maxCategory}</p>
-            <Grid item>
-                <Grid container spacing={2}>
-                    {imgs.map((img, index) => {
-                        // console.log(img, index)
-                        return (
-                            <Grid item xs={3}>
+        <Box sx={{ padding: 2 }}>
+            <Typography variant="h4" align="center" sx={{ marginBottom: 1 }}>
+                あなたが選んだ犬種は
+            </Typography>
+            <Typography variant="h5" align="center" sx={{ fontWeight: 'bold', marginBottom: 4 }}>
+                {maxCategory}
+            </Typography>
+            <Grid container spacing={4} justifyContent="center">
+                {imgs.map((img, index) => {
+                    return (
+                        <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                            <Box sx={{ border: '2px solid #ccc', borderRadius: '8px', overflow: 'hidden' }}>
                                 <img
-                                    key={index}
                                     src={img}
-                                    alt={img}
+                                    alt={`dog-${index}`}
                                     style={{
                                         width: "100%",
-                                        height: "100%",
-                                        objectFit: "contain",
+                                        height: "auto",
+                                        objectFit: "cover", // 画像をコンテナにフィットさせる
                                     }}
                                 />
-                            </Grid>
-                        );
-                    })}
-                </Grid>
+                            </Box>
+                        </Grid>
+                    );
+                })}
             </Grid>
-        </div>
-
+        </Box>
     );
 }
