@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import Grid from '@mui/material/Grid';
 
 export default function Result() {
     const location = useLocation();
     const payload = location.state;
     //location.state.imgDataがうごかないのはなぜ
-    const [img, setImg] = useState(payload.imgData);
+    const [imgs, setImgs] = useState(payload.imgData);
     const [category, setCategory] = useState(payload.categoryData);
 
     const [maxCategory, setMaxCategory] = useState(() => {
@@ -25,6 +26,27 @@ export default function Result() {
         <div>
             あなたがえらんだのは
             <p>{maxCategory}</p>
+            <Grid item>
+                <Grid container spacing={2}>
+                    {imgs.map((img, index) => {
+                        // console.log(img, index)
+                        return (
+                            <Grid item xs={3}>
+                                <img
+                                    key={index}
+                                    src={img}
+                                    alt={img}
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "contain",
+                                    }}
+                                />
+                            </Grid>
+                        );
+                    })}
+                </Grid>
+            </Grid>
         </div>
 
     );
