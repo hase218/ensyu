@@ -70,16 +70,18 @@ export default function Top() {
     }, [breed]);
 
     useEffect(() => {
-        if(count > 10) {
+        if (count > 10) {
             (async () => {
-                try{
-                    navigate("/result");
+                const payload = { imgData: likeImgs, categoryData: likeCategory };
+                try {
+                    navigate("/result", { state: payload });
                 } catch (error) {
                     console.error(error.message);
                 }
             })();
         }
-    [count, navigate]});
+        [count, navigate]
+    });
 
     const handleMouseDown = (e) => {
         e.preventDefault();//ブラウザのデフォルトの動きをなくす
