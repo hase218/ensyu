@@ -12,9 +12,9 @@ export default function Guide() {
     return (
         <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
             <Card elevation={3} sx={{ borderRadius: 2 }}>
-                <CardContent>
+                <CardContent sx={{ textAlign: 'center'}}>
                     {/* Title Section */}
-                    <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
+                    <Typography variant="h5" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
                         あそびかた
                     </Typography>
 
@@ -38,7 +38,7 @@ export default function Guide() {
                     </Typography>
 
 
-                    <Typography variant="h5" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
+                    <Typography variant="h6" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
                         注意
                     </Typography>
                     <Typography variant="body2" paragraph sx={{ lineHeight: 1.6 }}>

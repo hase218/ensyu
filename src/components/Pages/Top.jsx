@@ -137,7 +137,7 @@ export default function Top() {
     }
 
     return (
-        <Grid container spacing={4} sx={{ padding: 4 }}>
+        <Grid container spacing={4} sx={{ padding: 4 }} backgroundColor={"white"}>
             <Grid item xs={12} sm={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Box
                     sx={{
