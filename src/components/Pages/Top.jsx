@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import Result from "./Result";
 import { useNavigate } from "react-router-dom";
+import Button from '@mui/material/Button';
 
 //右に動かしたときに、犬種から辞書型にあるカテゴリーをとりだしたい
 //15回動かしたら結果のページに動くようにする
@@ -169,6 +170,9 @@ export default function Top() {
                                 objectFit: "contain",
                             }} />
                     </Box>
+                </Grid>
+                <Grid item>
+                    <Button variant="outlined" onClick={() => { setLikeImgs([]), setLikeCategory([]), setCount(0)}}>やりなおし</Button>
                 </Grid>
                 <Grid item>
                     <div>{count}</div>
