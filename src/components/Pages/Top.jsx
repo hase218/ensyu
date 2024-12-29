@@ -56,22 +56,28 @@ export default function Top() {
     useEffect(() => {
         (async () => {
             try {
-                const response = await fetch(`https://dog.ceo/api/breed/${breed}/images/random`);
-                if (!response.ok) { // ステータスコードが200番台でなければエラーをスロー
-                    throw new Error(`HTTPエラー: ${response.status}`);
-                }
-                const data = await response.json();
-                // console.log(data.message)
-                setImg(data.message);
+                let newImg;
+                let isDuplicate;
+                do {
+                    const response = await fetch(`https://dog.ceo/api/breed/${breed}/images/random`);
+                    if (!response.ok) {
+                        throw new Error(`HTTPエラー: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    newImg = data.message;
+                    isDuplicate = likeImgs.includes(newImg);
+                } while (isDuplicate); // 重複している場合は再取得
+
+                setImg(newImg);
             } catch (error) {
                 console.error(error.message);
                 setBreed(randomValueFromArray(dogBreeds));
             }
         })();
-    }, [breed]);
-
+    }, [breed, likeImgs]);
+    
     useEffect(() => {
-        if (count > 10) {
+        if (count > 11) {
             (async () => {
                 const payload = { imgData: likeImgs, categoryData: likeCategory };
                 try {
@@ -172,7 +178,7 @@ export default function Top() {
                     </Box>
                 </Grid>
                 <Grid item>
-                    <Button variant="outlined" onClick={() => { setLikeImgs([]), setLikeCategory([]), setCount(0)}}>やりなおし</Button>
+                    <Button variant="outlined" onClick={() => { setLikeImgs([]), setLikeCategory([]), setCount(0) }}>やりなおし</Button>
                 </Grid>
                 <Grid item>
                     <div>{count}</div>
