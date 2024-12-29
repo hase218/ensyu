@@ -3,10 +3,11 @@ import Result from "./Pages/Result";
 import Top from "./Pages/Top";
 import Gallery from "./Pages/Gallery";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+import { Grid, Box, Typography } from "@mui/material";
 
 export default function Main() {
     return (
-        <div>
+        <Grid container>
             <BrowserRouter>
                 <Link to="/">トップ</Link>
                 <Link to="/Guide">あそびかた</Link>
@@ -18,6 +19,6 @@ export default function Main() {
                     <Route path="/Gallery" element={<Gallery />} />
                 </Routes>
             </BrowserRouter>
-        </div>
+        </Grid>
     );
 }
