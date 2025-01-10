@@ -29,11 +29,13 @@ function RouterContent() {
     //     navigate("/");
     // }, []);
     return (
-        <Grid container>
+        <Grid container sx={{ width: "100%" }}>
             {/* 左側 */}
             <Grid item xs={3}>
                 <Box
                     sx={{
+                        width: "20%",
+                        position: "fixed",
                         height: "100vh", // 全画面の高さ
                         backgroundColor: "#f0f0f0", // 背景色
                         padding: 2
@@ -57,7 +59,10 @@ function RouterContent() {
             </Grid>
 
             {/* 右側のコンテンツ */}
-            <Grid item xs={9}>
+            <Grid item 
+                xs={9}
+                sx={{padding: 4}}
+            >
                 <Box sx={{ padding: 4 }}>
                     <Routes>
                         <Route path="/" element={<Top />} />
