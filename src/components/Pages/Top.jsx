@@ -12,8 +12,9 @@ function randomValueFromArray(array) {
 export default function Top() {
     const [dogCategory, setDogCategory] = useState([]); //犬辞書型
     const [dogBreeds, setDogBreeds] = useState([]); //辞書型のkeyだけとった配列
-    const [breed, setBreed] = useState(); //画像取得用の犬種名
-    const [img, setImg] = useState();
+    const [breed, setBreed] = useState(null); //画像取得用の犬種名
+    const [img, setImg] = useState(null);
+    //空でもいいけど、nullの方が親切
 
     const [likeImgs, setLikeImgs] = useState([]); //気に入った写真
     const [likeCategory, setLikeCategory] = useState([]); //気に入った犬種
@@ -42,31 +43,35 @@ export default function Top() {
             setDogCategory(array1);
             setDogBreeds(Object.keys(array1));
             setLikeCategory(array2);
-            setBreed(randomValueFromArray(Object.keys(array1)));
+            if (Object.keys(array1).length > 0) {
+                setBreed(randomValueFromArray(Object.keys(array1)));
+            }
         })();
     }, []);
 
     useEffect(() => {
-        (async () => {
-            try {
-                let newImg;
-                let isDuplicate;
-                do {
-                    const response = await fetch(`https://dog.ceo/api/breed/${breed}/images/random`);
-                    if (!response.ok) {
-                        throw new Error(`HTTPエラー: ${response.status}`);
-                    }
-                    const data = await response.json();
-                    newImg = data.message;
-                    isDuplicate = likeImgs.includes(newImg);
-                } while (isDuplicate); // 重複している場合は再取得
+        if (breed) { //breedがnullでないとき画像を取得（nullだと無意味なリクエストを送ることになる）
+            (async () => {
+                try {
+                    let newImg;
+                    let isDuplicate;
+                    do {
+                        const response = await fetch(`https://dog.ceo/api/breed/${breed}/images/random`);
+                        if (!response.ok) {
+                            throw new Error(`HTTPエラー: ${response.status}`);
+                        }
+                        const data = await response.json();
+                        newImg = data.message;
+                        isDuplicate = likeImgs.includes(newImg);
+                    } while (isDuplicate); // 重複している場合は再取得
 
-                setImg(newImg);
-            } catch (error) {
-                console.error(error.message);
-                setBreed(randomValueFromArray(dogBreeds));
-            }
-        })();
+                    setImg(newImg);
+                } catch (error) {
+                    console.error(error.message);
+                    setBreed(randomValueFromArray(dogBreeds));
+                }
+            })();
+        }
     }, [breed, likeImgs]);
 
     useEffect(() => {
@@ -136,6 +141,10 @@ export default function Top() {
         setIsDragging(false);
     }
 
+    if (breed === null || img === null) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <Grid container spacing={4} sx={{ padding: 4 }} backgroundColor={"white"}>
             <Grid item xs={12} sm={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -191,7 +200,7 @@ export default function Top() {
                 </Typography>
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
-                <IconButton 
+                <IconButton
                     onClick={() => { handleSlideLeft() }}
                     size="large"
                     sx={{
@@ -203,7 +212,7 @@ export default function Top() {
                     }}>
                     <SwipeLeftIcon sx={{ fontSize: 'inherit' }} />
                 </IconButton>
-                <IconButton 
+                <IconButton
                     onClick={() => { handleSlideRight() }}
                     size="large"
                     sx={{

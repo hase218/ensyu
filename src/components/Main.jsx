@@ -6,6 +6,15 @@ import { HashRouter, Route, Routes, Link, useNavigate } from "react-router-dom";
 import { Grid, Box, Typography } from "@mui/material";
 import { useEffect } from "react";
 
+// HashRouterだと動く
+
+// BrowserRouter の場合
+// ユーザーが /Guide にアクセスしてリロードすると、サーバーに /Guide へのリクエストが送信されます。
+// サーバーがこのリクエストを処理する設定（例: SPA の index.html にリダイレクト）がないと、404 Not Found になります。
+// HashRouter の場合
+// ユーザーが http://localhost:3000/#/Guide にアクセスしてリロードすると、サーバーには http://localhost:3000/ へのリクエストだけが送信されます（ハッシュ部分は送られません）。
+// サーバーは常に index.html を返し、React アプリが起動してハッシュ部分を解析し、対応するコンポーネントをレンダリングします。（GPT)
+
 export default function Main() {
     return (
         <HashRouter>
