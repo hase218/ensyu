@@ -34,9 +34,9 @@ function RouterContent() {
             <Grid item xs={3}>
                 <Box
                     sx={{
-                        width: "20%",
-                        position: "fixed",
-                        height: "100vh", // 全画面の高さ
+                        // width: "20%",
+                        // position: "fixed",　固定するならここらへん
+                        height: "100%", // 全画面の高さ
                         backgroundColor: "#f0f0f0", // 背景色
                         padding: 2
                     }}
