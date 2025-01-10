@@ -50,7 +50,7 @@ export default function Gallery() {
 
     return (
         <div>
-            <p>Gallery</p>
+            <p>準備中</p>
         </div>
     );
 }
