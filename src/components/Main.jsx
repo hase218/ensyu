@@ -2,23 +2,23 @@ import Guide from "./Pages/Guide";
 import Result from "./Pages/Result";
 import Top from "./Pages/Top";
 import Gallery from "./Pages/Gallery";
-import { BrowserRouter, Route, Routes, Link, useNavigate } from "react-router-dom";
+import { HashRouter, Route, Routes, Link, useNavigate } from "react-router-dom";
 import { Grid, Box, Typography } from "@mui/material";
 import { useEffect } from "react";
 
 export default function Main() {
     return (
-        <BrowserRouter>
+        <HashRouter>
             <RouterContent />
-        </BrowserRouter>
+        </HashRouter>
     );
 }
 
 function RouterContent() {
-    const navigate = useNavigate(); // ページ自動遷移用
-    useEffect(() => {
-        navigate("/");
-    }, []);
+    // const navigate = useNavigate(); // ページ自動遷移用
+    // useEffect(() => {
+    //     navigate("/");
+    // }, []);
     return (
         <Grid container>
             {/* 左側 */}
