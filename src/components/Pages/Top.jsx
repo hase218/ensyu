@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Grid, Button, Typography, IconButton } from "@mui/material";
+import { Box, Grid, Button, Typography, IconButton, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SwipeRightIcon from '@mui/icons-material/SwipeRight';
 import SwipeLeftIcon from '@mui/icons-material/SwipeLeft';
@@ -142,7 +142,12 @@ export default function Top() {
     }
 
     if (breed === null || img === null) {
-        return <div>Loading...</div>;
+        return (
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+                <CircularProgress />
+            </Box>
+        );
+        
     }
 
     return (

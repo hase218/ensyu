@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import {Box, Grid, Typography} from "@mui/material";
+
 
 export default function Result() {
     const location = useLocation();
