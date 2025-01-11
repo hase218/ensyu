@@ -23,7 +23,7 @@ export default function Guide() {
                         トップページから画像をスライドしてお気に入りの犬を見つけましょう。
                     </Typography>
                     <Typography variant="body1" paragraph sx={{ lineHeight: 1.6 }}>
-                        良いと思ったものは右へドラッグ＆ドロップ。微妙...ってものは左へドラッグ＆ドロップしてください。
+                        良いと思ったものは右へドラッグ＆ドロップ。微妙...ってものは左へドラッグ＆ドロップ！
                     </Typography>
                     <Typography>
                         <Box component="span" sx={{ alignItems: 'center' }}>
