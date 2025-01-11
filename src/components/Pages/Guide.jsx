@@ -1,8 +1,8 @@
 import React from 'react';
 import { Typography, Container, Card, CardContent, Box, Button } from '@mui/material';
 import { DragIndicator } from '@mui/icons-material';
-import SwipeRightIcon from '@mui/icons-material/SwipeRight';
-import SwipeLeftIcon from '@mui/icons-material/SwipeLeft';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ClearIcon from '@mui/icons-material/Clear';
 import { Navigate } from 'react-router';
 import Top from './Top';
 import { useNavigate } from "react-router-dom";
@@ -23,15 +23,12 @@ export default function Guide() {
                         トップページから画像をスライドしてお気に入りの犬を見つけましょう。
                     </Typography>
                     <Typography variant="body1" paragraph sx={{ lineHeight: 1.6 }}>
-                        良いと思ったものは
+                        良いと思ったものは右へドラッグ＆ドロップ。微妙...ってものは左へドラッグ＆ドロップしてください。
+                    </Typography>
+                    <Typography>
                         <Box component="span" sx={{ alignItems: 'center' }}>
-                            <SwipeRightIcon sx={{ mx: 0.5 }} />右へドラッグ＆ドロップ
+                            下の<FavoriteIcon sx={{mx: 0.5, verticalAlign: 'middle'}} />や<ClearIcon sx={{mx: 0.5, verticalAlign: 'middle'}} />でも選択可能です。
                         </Box>
-                        。微妙...ってものは
-                        <Box component="span" sx={{ alignItems: 'center' }}>
-                            <SwipeLeftIcon sx={{ mx: 0.5 }} />左へドラッグ＆ドロップ
-                        </Box>
-                        してください。
                     </Typography>
                     <Typography variant="body1" paragraph sx={{ lineHeight: 1.6 }}>
                         良いと思った画像を12こ選ぶと、あなたが一番気に入っている犬の種類がわかります。

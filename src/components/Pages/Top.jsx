@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Box, Grid, Button, Typography, IconButton, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import SwipeRightIcon from '@mui/icons-material/SwipeRight';
-import SwipeLeftIcon from '@mui/icons-material/SwipeLeft';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ClearIcon from '@mui/icons-material/Clear';
 
 function randomValueFromArray(array) {
     const random = Math.floor(Math.random() * array.length);
@@ -215,7 +215,7 @@ export default function Top() {
                             backgroundColor: '#ddd',
                         }
                     }}>
-                    <SwipeLeftIcon sx={{ fontSize: 'inherit' }} />
+                    <ClearIcon sx={{ fontSize: 'inherit' }} />
                 </IconButton>
                 <IconButton
                     onClick={() => { handleSlideRight() }}
@@ -227,7 +227,7 @@ export default function Top() {
                             backgroundColor: '#ddd',
                         }
                     }}>
-                    <SwipeRightIcon sx={{ fontSize: 'inherit' }} />
+                    <FavoriteIcon sx={{ fontSize: 'inherit' }} />
                 </IconButton>
             </Grid>
         </Grid>
