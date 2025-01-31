@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import {Box, Grid, Typography} from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 
 
 export default function Result() {
@@ -8,6 +8,8 @@ export default function Result() {
     const payload = location.state;
     const [imgs, setImgs] = useState(payload.imgData);
     const [category, setCategory] = useState(payload.categoryData);
+    const [imgSL, setimgSL] = useState(payload.imgDataSL);
+    //これuseState使ってる意味あんのかな
 
     const [maxCategory, setMaxCategory] = useState(() => {
         return Object.keys(category).reduce((maxKey, key) => {
@@ -19,6 +21,7 @@ export default function Result() {
         }, "");
     });
 
+    console.log(imgSL);
     return (
         <Box sx={{ padding: 2 }}>
             <Typography variant="h4" align="center" sx={{ marginBottom: 1 }}>
@@ -46,6 +49,36 @@ export default function Result() {
                     );
                 })}
             </Grid>
+            {imgSL && (
+                <Box sx={{ marginTop: 4, textAlign: "center" }}>
+                    <Typography variant="h6" sx={{ marginBottom: 2 }}>
+                        あなたが特別気に入った子は
+                    </Typography>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "300px", // 固定幅
+                            height: "300px", // 固定高さ
+                            overflow: "hidden",
+                            borderRadius: "8px",
+                            border: "2px solid #ccc",
+                            margin: "auto",
+                        }}
+                    >
+                        <img
+                            src={imgSL}
+                            alt="Special dog"
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover", // 画像をコンテナにフィットさせる
+                            }}
+                        />
+                    </Box>
+                </Box>
+            )}
         </Box>
     );
 }

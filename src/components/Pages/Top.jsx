@@ -18,7 +18,7 @@ export default function Top() {
 
     const [likeImgs, setLikeImgs] = useState([]); //気に入った写真
     const [likeCategory, setLikeCategory] = useState([]); //気に入った犬種
-    const [superLike, setSuperLike] = useState(); //めっちゃ気に入った写真
+    const [superLikeImg, setSuperLikeImg] = useState(); //めっちゃ気に入った写真
     const [superLiked, setSuperLiked] = useState(false);
     const [count, setCount] = useState(0);
     const navigate = useNavigate(); //ページ自動遷移用
@@ -81,7 +81,7 @@ export default function Top() {
     useEffect(() => {
         if (count > 11) {
             (async () => {
-                const payload = { imgData: likeImgs, categoryData: likeCategory };
+                const payload = { imgData: likeImgs, categoryData: likeCategory, imgDataSL: superLikeImg};
                 try {
                     navigate("/result", { state: payload });
                 } catch (error) {
@@ -127,7 +127,7 @@ export default function Top() {
     };
 
     const handleSlideRight = () => {
-        console.log("slideRight");
+        // console.log("slideRight");
         setLikeImgs(prevImg => [...prevImg, img]);
         setLikeCategory((prevCategory) => ({
             ...prevCategory,
@@ -153,12 +153,13 @@ export default function Top() {
         setIsDragging(false);
     }
 
+    // console.log(superLikeImg);
     const handleSlideUp = () => {
         if (superLiked) {
             return alert("もうつかえないよ！");
         }
-        console.log("slideUp");
-        setSuperLike(img);
+        // console.log("slideUp");
+        setSuperLikeImg(img);
         setLikeCategory((prevCategory) => ({
             ...prevCategory,
             [dogCategory[breed]]: prevCategory[dogCategory[breed]] + 3,
