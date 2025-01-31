@@ -18,13 +18,17 @@ export default function Top() {
 
     const [likeImgs, setLikeImgs] = useState([]); //気に入った写真
     const [likeCategory, setLikeCategory] = useState([]); //気に入った犬種
+    const [superLike, setSuperLike] = useState(); //めっちゃ気に入った写真
+    const [superLiked, setSuperLiked] = useState(false);
     const [count, setCount] = useState(0);
     const navigate = useNavigate(); //ページ自動遷移用
 
     //スライド動作に必要な変数
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
+    const [startY, setStartY] = useState(0);
     const [distanceX, setDistanceX] = useState(0);
+    const [distanceY, setDistanceY] = useState(0);
 
     useEffect(() => {
         (async () => {
@@ -89,24 +93,31 @@ export default function Top() {
     });
 
     const handleMouseDown = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         setIsDragging(true);
         setStartX(e.clientX); //クリックされたときのx座標を記録
+        setStartY(e.clientY);
     };
 
     const handleMouseMove = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         if (!isDragging) return;
 
         const currentX = e.clientX;
-        const distance = currentX - startX;
-        setDistanceX(distance);
+        const currentY = e.clientY;
+        const disX = currentX - startX;
+        const disY = currentY - startY;
+        setDistanceX(disX);
+        setDistanceY(disY);
 
-        if (distance > 30) {  // 30px以上右にスライドしたら
+        if (disX > 30) {  // 30px以上右にスライドしたら
             handleSlideRight();
         }
-        if (distance < -30) {  // 30px以上左にスライドしたら
+        if (disX < -30) {  // 30px以上左にスライドしたら
             handleSlideLeft();
+        }
+        if (disY < -30) {
+            handleSlideUp();
         }
     };
 
@@ -116,6 +127,7 @@ export default function Top() {
     };
 
     const handleSlideRight = () => {
+        console.log("slideRight");
         setLikeImgs(prevImg => [...prevImg, img]);
         setLikeCategory((prevCategory) => ({
             ...prevCategory,
@@ -139,6 +151,28 @@ export default function Top() {
         setBreed(newBreed);
         setDistanceX(0);
         setIsDragging(false);
+    }
+
+    const handleSlideUp = () => {
+        if (superLiked) {
+            return alert("もうつかえないよ！");
+        }
+        console.log("slideUp");
+        setSuperLike(img);
+        setLikeCategory((prevCategory) => ({
+            ...prevCategory,
+            [dogCategory[breed]]: prevCategory[dogCategory[breed]] + 3,
+        }));
+        let newBreed;
+        do {
+            newBreed = randomValueFromArray(dogBreeds);
+        } while (newBreed === breed);
+
+        setSuperLiked(true);
+        setBreed(newBreed);
+        setDistanceY(0);
+        setIsDragging(false);
+        setCount((prevCount) => prevCount + 1);
     }
 
     if (breed === null || img === null) {
