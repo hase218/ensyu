@@ -53,6 +53,7 @@ export default function Top() {
         })();
     }, []);
 
+
     useEffect(() => {
         if (breed) { //breedがnullでないとき画像を取得（nullだと無意味なリクエストを送ることになる）
             (async () => {
